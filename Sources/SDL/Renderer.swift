@@ -29,6 +29,11 @@ public final class SDLRenderer {
         self.internalPointer = try internalPointer.sdlThrow(type: type(of: self))
     }
     
+    /// Set a device independent resolution for rendering
+    public func setLogicalSize(w: Int32, h: Int32) {
+        SDL_RenderSetLogicalSize(internalPointer, w, h)
+    }
+    
     /// The color used for drawing operations (Rect, Line and Clear).
     public func drawColor() throws -> (red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) {
         
