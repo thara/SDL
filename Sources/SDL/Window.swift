@@ -104,6 +104,12 @@ public final class SDLWindow {
             return SDL_SetWindowDisplayMode(internalPointer, nil) >= 0
         }
     }
+    
+    /// Set the title of a window
+    public func setWindowTitle(_ title: String) {
+        
+        SDL_SetWindowTitle(internalPointer, title)
+    }
 }
 
 // MARK: - Supporting Types
