@@ -110,6 +110,12 @@ public final class SDLWindow {
         
         SDL_SetWindowTitle(internalPointer, title)
     }
+    
+    /// Raise a window above other windows and set the input focus
+    public func raise() {
+        
+        SDL_RaiseWindow(internalPointer)
+    }
 }
 
 // MARK: - Supporting Types
