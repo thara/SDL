@@ -8,6 +8,9 @@ let package = Package(
         .library(
             name: "SDL",
             targets: ["SDL"]),
+        .library(
+            name: "CSDL2",
+            targets: ["CSDL2"]),
         .executable(
             name: "SDLDemo",
             targets: ["SDLDemo"]),
