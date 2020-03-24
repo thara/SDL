@@ -6,27 +6,29 @@
 //
 import CSDL2
 
-public typealias SDLAudioCallback = (UnsafeMutablePointer<UInt8>, Int32) -> Void
+public typealias SDLAudioCallback<T> = (T, UnsafeMutablePointer<UInt8>, Int32) -> Void
 
 public typealias SDLAudioSpec = SDL_AudioSpec
 
 extension SDLAudioSpec {
-    public mutating func callback(_ callback: @escaping SDLAudioCallback) {
-        let holder = SDLAudioCallbackHolder(callback: callback)
-        self.userdata = Unmanaged<SDLAudioCallbackHolder>.passRetained(holder).toOpaque()
+    public mutating func callback<T>(userdata: T, callback: @escaping SDLAudioCallback<T>) {
+        let holder = SDLAudioUserdata(userdata: userdata, callback: callback)
+        self.userdata = Unmanaged<SDLAudioUserdata<T>>.passRetained(holder).toOpaque()
 
         self.callback = { userdata, stream, len in
             let p = UnsafeRawPointer(userdata)!
-            let holder: SDLAudioCallbackHolder = Unmanaged.fromOpaque(p).takeUnretainedValue()
-            holder.callback(stream!, len)
+            let holder: SDLAudioUserdata<AnyObject> = Unmanaged.fromOpaque(p).takeUnretainedValue()
+            holder.callback(holder.userdata, stream!, len)
         }
     }
 }
 
-class SDLAudioCallbackHolder {
-    var callback: SDLAudioCallback
+class SDLAudioUserdata<T> {
+    let userdata: T
+    let callback: SDLAudioCallback<T>
 
-    init(callback: @escaping SDLAudioCallback) {
+    init(userdata: T, callback: @escaping SDLAudioCallback<T>) {
+        self.userdata = userdata
         self.callback = callback
     }
 }
