@@ -11,7 +11,7 @@ public typealias SDLAudioCallback<T> = (T, UnsafeMutablePointer<UInt8>, Int32) -
 public typealias SDLAudioSpec = SDL_AudioSpec
 
 extension SDLAudioSpec {
-    public mutating func callback<T>(userdata: T, callback: @escaping SDLAudioCallback<T>) {
+    public mutating func setCallback<T>(userdata: T, callback: @escaping SDLAudioCallback<T>) {
         let holder = SDLAudioUserdata(userdata: userdata, callback: callback)
         self.userdata = Unmanaged<SDLAudioUserdata<T>>.passRetained(holder).toOpaque()
 
