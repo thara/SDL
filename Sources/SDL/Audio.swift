@@ -33,12 +33,11 @@ class SDLAudioUserdata<T> {
     }
 }
 
-
-public func openAudio(desired: inout SDLAudioSpec, obtained: inout SDLAudioSpec?) {
+public func openAudio(desired: inout SDLAudioSpec, obtained: inout SDLAudioSpec?) throws {
     if var obtained = obtained {
-        SDL_OpenAudio(&desired, &obtained)
+        try SDL_OpenAudio(&desired, &obtained).sdlThrow()
     } else {
-        SDL_OpenAudio(&desired, nil)
+        try SDL_OpenAudio(&desired, nil).sdlThrow()
     }
 }
 

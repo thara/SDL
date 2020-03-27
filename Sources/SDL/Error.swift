@@ -41,14 +41,14 @@ internal extension SDLError {
         
         public let file: String
         
-        public let type: String
+        public let type: String?
         
         public let function: String
         
         public let line: UInt
         
         internal init(file: String,
-                      type: Any,
+                      type: Any?,
                       function: String,
                       line: UInt) {
             
@@ -60,7 +60,13 @@ internal extension SDLError {
         
         public var description: String {
             let fileName = file.split(separator: "/").last.flatMap { String($0) } ?? file
-            return "\(fileName):\(line.description) \(type).\(function)"
+            let function: String
+            if let type = type {
+                function = "\(type).\(self.function)"
+            } else {
+                function = "\(self.function)"
+            }
+            return "\(fileName):\(line.description) \(function)"
         }
     }
 }
@@ -85,7 +91,7 @@ internal extension CInt {
     /// Throws for error codes.
     @inline(__always)
     func sdlThrow(file: String = #file,
-                  type: Any,
+                  type: Any? = nil,
                   function: String = #function,
                   line: UInt = #line) throws {
         
