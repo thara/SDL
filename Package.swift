@@ -17,6 +17,9 @@ let package = Package(
             name: "SDLDemo",
             dependencies: ["SDL"]),
         .target(
+            name: "SDLAudioDemo",
+            dependencies: ["SDL"]),
+        .target(
             name: "SDL",
             dependencies: ["CSDL2"]),
         .systemLibrary(
